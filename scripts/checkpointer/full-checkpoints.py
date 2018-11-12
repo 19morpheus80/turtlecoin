@@ -64,13 +64,13 @@ while current_height > stop_height:
     try:
         blocks = get_block_info(current_height)
         for b in blocks:
-            print '%(height)s,%(hash)s' % b
+            print ('%(height)s,%(hash)s' % b)
             all_blocks.append('%(height)s,%(hash)s' % b)
             current_height = b['height'] - 1
             if current_height < stop_height:
                 break
     except:
-        print "Whoops... let's try that again"
+        print ("Whoops... let's try that again")
 
 all_blocks.reverse()
 
