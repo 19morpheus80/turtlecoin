@@ -163,10 +163,10 @@ public:
 
   Currency(Currency&& currency);
 
-  size_t getApproximateMaximumInputCount(size_t transactionSize, size_t outputCount, size_t mixinCount) const;
+  static size_t getApproximateMaximumInputCount(size_t transactionSize, size_t outputCount, size_t mixinCount);
 
 private:
-  Currency(Logging::ILogger& log) : logger(log, "currency") {
+  Currency(std::shared_ptr<Logging::ILogger> log) : logger(log, "currency") {
   }
 
   bool init();
@@ -247,7 +247,7 @@ private:
 
 class CurrencyBuilder : boost::noncopyable {
 public:
-  CurrencyBuilder(Logging::ILogger& log);
+  CurrencyBuilder(std::shared_ptr<Logging::ILogger> log);
 
   Currency currency() {
     if (!m_currency.init()) {
