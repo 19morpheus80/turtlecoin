@@ -6,6 +6,27 @@ project(TurtleCoin)
 # Required for finding Threads on ARM
 enable_language(C)
 enable_language(CXX)
+
+# Assert our compiler is good
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    # GCC 7.0 or higher
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7)
+        message(FATAL_ERROR "GCC/G++ 7.0 or greater is required to compile. Please check the README.md for detailed compilation instructions.")
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    # Clang 6.0 or higher
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 6)
+        message(FATAL_ERROR "Clang 6.0 or greater is required to compile. Please check the README.md for detailed compilation instructions.")
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    # Visual Studio 15 2017 or higher
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.10)
+        message(FATAL_ERROR "MSVC 19.10 or greater is required to compile (Latest Visual Studio 15 2017 should suffice). Please check the README.md for detailed compilation instructions.")
+    endif()
+else()
+    message(WARNING "You are using an unsupported compiler. The compilation is very likely to fail. God speed.")
+endif()
+
 find_package(Threads)
 
 set(VERSION "0.1")
@@ -131,15 +152,25 @@ if(NOT MSVC)
 
   if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "aarch64" OR "${LABEL}" STREQUAL "aarch64")
     set(MAES_FLAG "")
+    set(CRYPTOPP_AARCH64 ON CACHE BOOL FORCE "Tell CryptoPP that we are building for aarch64")
   elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "x86_64" AND NOT "${LABEL}" STREQUAL "aarch64")
     set(MAES_FLAG "-maes")
   endif()
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${STATICASSERTC_FLAG} ${WARNINGS} ${C_WARNINGS} ${ARCH_FLAG} ${MAES_FLAG}")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${STATICASSERTCPP_FLAG} ${WARNINGS} ${CXX_WARNINGS} ${ARCH_FLAG} ${MAES_FLAG}")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 ${STATICASSERTC_FLAG} ${WARNINGS} ${C_WARNINGS} ${ARCH_FLAG} ${MAES_FLAG}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 ${STATICASSERTCPP_FLAG} ${WARNINGS} ${CXX_WARNINGS} ${ARCH_FLAG} ${MAES_FLAG}")
 
-  if(APPLE AND CMAKE_C_COMPILER_ID STREQUAL "GNU")
-    # Need to build against libc++ instead of libstc++ on apple
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++ -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -nodefaultlibs -lc++ -lc++abi -lm -lc -lgcc -lgcc_eh")
+  if(APPLE)
+      if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
+          # Need to build against libc++ instead of libstc++ on apple
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nostdinc++ -I/usr/local/opt/llvm/include/c++/v1 -nodefaultlibs -lc++ -lc++abi -lm -lc -lgcc -lgcc_eh")
+
+          # Need these flags so gcc OSX works on the cryptopp ASM - https://groups.google.com/forum/#!topic/cryptopp-users/po8yO-vYaac
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DCRYPTOPP_CLANG_INTEGRATED_ASSEMBLER=1")
+
+      elseif(CMAKE_C_COMPILER_ID STREQUAL "Clang")
+          # Need to link against the llvm libc++ library, default is too old for std::filesystem
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -I/usr/local/opt/llvm/include/c++/v1")
+      endif()
   endif()
 
   if(NOT APPLE)
