@@ -6,11 +6,11 @@
 #include <zedwallet++/GetInput.h>
 /////////////////////////////////
 
+#include <iostream>
+
 #include <config/WalletConfig.h>
 
 #include <Errors/ValidateParameters.h>
-
-#include "linenoise.hpp"
 
 #include <Utilities/FormatTools.h>
 
@@ -56,45 +56,19 @@ std::string getInput(
     const std::vector<T> &availableCommands,
     const std::string prompt)
 {
-    linenoise::SetCompletionCallback(
-    [availableCommands](const char *input, std::vector<std::string> &completions)
-    {
-        /* Convert to std::string */
-        std::string c = input;
-
-        for (const auto &command : availableCommands)
-        {
-            /* Does command begin with input? */
-            if (command.commandName.compare(0, c.length(), c) == 0)
-            {
-                completions.push_back(command.commandName);
-            }
-        }
-    });
-
-    const std::string promptMsg = yellowANSIMsg(prompt);
-
-    /* 256 max commands in the wallet command history */
-    linenoise::SetHistoryMaxLen(256);
+    std::cout << InformationMsg(prompt);
 
     /* The inputted command */
     std::string command;
 
-    bool quit = linenoise::Readline(promptMsg.c_str(), command);
-    
-    /* User entered ctrl+c or similar */
-    if (quit)
+    if (!std::getline(std::cin, command))
     {
+        /* User entered ctrl+c or similar */
         return "exit";
     }
 	
     /* Remove any whitespace */
     Common::trim(command);
-
-    if (command != "")
-    {
-        linenoise::AddHistory(command.c_str());
-    }
 
     return command;
 }
