@@ -64,5 +64,4 @@ deploy:
     secure: 0UYa3LthRJXxAhtNgieKWiCptmKKDBxcd7sO4/5W3QQGY/oIoBqElk1Aum6J0q6imR2PsjkwxUd8L45hWXD4tjR8aG4Y35yU1gAp+4alcVp1OxDL3qvrMCjWQAmQfk5J763eHCDHYsQxs/MHA7knZfdyUjEuUzSKHmtywBsRBy9T1uDjsuna40e4ngclGhQz/O3tZMgLoM8gX+CpruVsDnc5Y703MCR2cNqx0GxhnADkPs2qtUWZs++yAX6haIGmpWU31hg9uMtwlgYKOVJoG0CthrSaXCTjj08uhEhzIQ37ACOq5GdIELeQSEFQ4jr3DvtfPwmKMgLBI4oM2zbU63Ez27suHJFaDQYlMV6kJ99ZaTg9OdNl0xrE+q0yRryb4gT4QJ6dkaCsFjrKewBLFNcnY2EVa5oEAG+VUxMz0mBuq3HSWyGyQiwLCCeIR8AxlmgbvG7QrLNbwXF/8KU4KKalVC0cz7RWytELWEfBmJYkGG6DltlvXKVkUEcrckl28GMcX5zIHlXn1gtLO+/XNkN6PdgO0hUnHkXGLr/geMrEgKNmvVM3vIzjLrzKlQiaoIwYhN/veNPdjTCm/IuD39ev+U9kfDWC4R3uzC7IzsgMz2rLH+DAxxGfQXvsJ+fXfMKfDkK2oo+nFo50O4NjvQKHgOUyev/9AfKfDCBxjx0=
   file: turtlecoin-${TRAVIS_TAG}-${LABEL}.tar.gz
   on:
-    repo: ExtraHash/turtlecoin
-    branch: heads/extras-dumb-fix
+    tags: true
