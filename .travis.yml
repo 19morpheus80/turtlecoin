@@ -63,5 +63,7 @@ deploy:
   api_key:
     secure: XDDjgXoIMIQSQ/XCN7bKd1MCTlgyYnKlBn3ovgAXGomvzzzHJrNsCKXq/JsiJKKCM6exmTYqgsAJHDBgN8MEc4vXbpkqaTfXkvdLUOQ1aK7sJouC1D3z2wWfzkPUYauXnWnC3ToOEebzMIgElnywL49mAlzmVMCSG0F1KNp408Z5SYFuRBIkDQ4A+GAm7yAIKb0l0liVKwS8UGfQlZO/z+PmbdcwZhdwzWFCa9cNw9r29umCI61h9BUg4WOQuOIzfeOcmeTLPr+WIbX6W80+lzQBlxmcCY/Ty68y3DHa8EQTt5EdsNUjqArovn/2p8I34mkYdRkzAqrSiMMAv0CUrk4AmWGQyT9p2Wfop/UWE+sv/GcomaO1O6XAzb4CGbljSLdQMYHwJKGYe+so3GCAGeLMeKjz7h6oKNStE7ENun0DaoRoct6csBveCvZo5JwSbKRBa9oyCmP4eBB4NOqtdpOfE0aS9gAg5NJiZodnq07ge5sGWFXrntsx3ZN8DYCBvIalr60yY8ZYRyWZIDA9toh57h+LIJ6yeZNAMU256oJCk9hep/XG6rjwp/9e5OhwO4SDgNcqkib/Fj7BG/8z/z5i71dkB4R68G+Hg560pv4l8P2y8XmDUvihIKfc53Knj/L7gXQSp49t9D9cUlXarj1yGgteySru0XeG4p3NhYQ=
   file: turtlecoin-${TRAVIS_TAG}-${LABEL}.tar.gz
+  skip_cleanup: true
   on:
     tags: true
+  
