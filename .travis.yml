@@ -3,48 +3,53 @@ language: cpp
 cache: ccache
 matrix:
   include:
-
-  # Arm (aarch64) cross compile
   - os: linux
     env:
     - MATRIX_EVAL="CC=aarch64-linux-gnu-gcc && CXX=aarch64-linux-gnu-g++"
     - LABEL="aarch64"
     - _DEPLOYABLE="true"
     - STRIP="aarch64-linux-gnu-strip"
-
 before_install:
 - eval $MATRIX_EVAL
-
 install:
 - if [[ "$LABEL" == "aarch64" ]]; then export BASEDIR=`pwd` ; fi
 - if [[ "$LABEL" == "aarch64" ]]; then cd $HOME ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then wget https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-a/8.2-2018.08/gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu.tar.xz ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then wget http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.gz ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then wget https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu-a/8.2-2018.08/gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu.tar.xz
+  ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then wget http://sourceforge.net/projects/boost/files/boost/1.55.0/boost_1_55_0.tar.gz
+  ; fi
 - if [[ "$LABEL" == "aarch64" ]]; then mkdir toolchain && cd toolchain ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then tar xfv ../gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu.tar.xz >/dev/null ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then cd gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then tar zxvf ../../boost_1_55_0.tar.gz >/dev/null ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then tar xfv ../gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu.tar.xz
+  >/dev/null ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then cd gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu
+  ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then tar zxvf ../../boost_1_55_0.tar.gz >/dev/null
+  ; fi
 - if [[ "$LABEL" == "aarch64" ]]; then cd boost_1_55_0 ; fi
 - if [[ "$LABEL" == "aarch64" ]]; then ./bootstrap.sh ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then curl https://raw.githubusercontent.com/turtlecoin/turtlecoin/development/scripts/fix_boost_aarch64.sh | sh ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then ./b2 toolset=gcc-aarch64 --with-system --with-filesystem --with-thread --with-date_time --with-chrono --with-regex --with-serialization --with-program_options >/dev/null; fi
-- if [[ "$LABEL" == "aarch64" ]]; then export CUSTOM_BOOST_ROOT="-DBOOST_ROOT=`pwd`" ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then export CUSTOM_TOOLCHAIN="-DCMAKE_TOOLCHAIN_FILE=../scripts/cross-aarch64.cmake" ; fi
-- if [[ "$LABEL" == "aarch64" ]]; then export STRIP="$HOME/toolchain/gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-strip" ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then curl https://raw.githubusercontent.com/turtlecoin/turtlecoin/development/scripts/fix_boost_aarch64.sh
+  | sh ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then ./b2 toolset=gcc-aarch64 --with-system --with-filesystem
+  --with-thread --with-date_time --with-chrono --with-regex --with-serialization --with-program_options
+  >/dev/null; fi
+- if [[ "$LABEL" == "aarch64" ]]; then export CUSTOM_BOOST_ROOT="-DBOOST_ROOT=`pwd`"
+  ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then export CUSTOM_TOOLCHAIN="-DCMAKE_TOOLCHAIN_FILE=../scripts/cross-aarch64.cmake"
+  ; fi
+- if [[ "$LABEL" == "aarch64" ]]; then export STRIP="$HOME/toolchain/gcc-arm-8.2-2018.08-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-strip"
+  ; fi
 - if [[ "$LABEL" == "aarch64" ]]; then cd $BASEDIR ; fi
-
 script:
 - eval $MATRIX_EVAL
 - mkdir build && cd build
 - cmake -DCMAKE_BUILD_TYPE=Release -DSTATIC=true .. ${CUSTOM_TOOLCHAIN} ${CUSTOM_BOOST_ROOT}
 - make -j2
-
 before_deploy:
 - if [[ "${TRAVIS_TAG}" == "" ]]; then export TRAVIS_TAG=${TRAVIS_COMMIT} ; fi
 - cd src
 - TARGETS="TurtleCoind miner zedwallet turtle-service zedwallet-beta cryptotest wallet-api"
-- ${STRIP} ${TARGETS}
-- rm -rf turtlecoin-${TRAVIS_TAG} 
+- "${STRIP} ${TARGETS}"
+- rm -rf turtlecoin-${TRAVIS_TAG}
 - mkdir turtlecoin-${TRAVIS_TAG}
 - cp ${TARGETS} turtlecoin-${TRAVIS_TAG}/
 - cp ../../LICENSE turtlecoin-${TRAVIS_TAG}/
@@ -53,14 +58,12 @@ before_deploy:
 - mkdir builds
 - cp turtlecoin-${TRAVIS_TAG}-${LABEL}.tar.gz builds
 - cd ..
-
 deploy:
-  - provider: releases
-    api_key: "GITHUB OAUTH TOKEN"
-    file:
-      - turtlecoin-${TRAVIS_TAG}-${LABEL}.tar.gz
-    skip_cleanup: true
-    on:
-      repo: ExtraHash/turtlecoin
-      tags: true
-      condition: "$_DEPLOYABLE = true"
+  provider: releases
+  api_key:
+    secure: jbPhgYfmPxieo0YpueV87k2Q8D1O7BDISMUpszJOLmIWV5W9uYnmBMHAINaCfIHSO/xqLebXfryrhqqz+CXErJTzqYHihsUgb48Cv+sMX//Xqxfwq4Q8jUdDtksIl8dn86J9491RzVZEdFufifEQf8+qtoai3OKl4OLmd4cLTrv1pjIaymrlqPIYgB5r8QV3TNNSzKCrPmiD31aR2zkRdJ1GPwnmRJu8HrvVHS5c7QVEJiPx5diAqYuknsRlnWofbQXGMYYXKLsaDw6WWH1EtCcbvGX/iPVCs9akhJJWrwLy95HYWr/i9aZMzSv6FBu3K7PM9BM/jMFD66rBfyyWHa2BvFPZgRzvoVNNRhO/gc+f49A1gLFV5osTRCg8lbnrEmzjmdNnlvPmJi8XQmq2+jKR04v2de7+NCxJ9KNpDIZoOT3FHN1c+y0bKq7lwwf7L7W6r0qq5b5N5xbh0tLLaiunpQn2qL8VoFYb+k057V7FnQ3TeEKieIY7OdJot8ynRRpjA/yULskC3yqUUc/kbEPe88zRkgRxjDnXQcB6+rXFl8lsW6pyDN1knYaZHrgDa5gRPyf6AJ1Cw6eq7cwRXvWGg+YHQze3RDM6jy7pjdy1d/ZvJ36jiXPd0N98JZrNJskzNNIC/doR2dJ+XSjiMYN1cRhsYd4oSVuyV4PSdtI=
+  file:
+    - turtlecoin-${TRAVIS_TAG}-${LABEL}.tar.gz
+  on:
+    repo: ExtraHash/turtlecoin
+    branch: extras-dumb-fix
