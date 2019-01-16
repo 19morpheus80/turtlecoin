@@ -45,7 +45,7 @@ script:
 - cmake -DCMAKE_BUILD_TYPE=Release -DSTATIC=true .. ${CUSTOM_TOOLCHAIN} ${CUSTOM_BOOST_ROOT}
 - make -j2
 before_deploy:
-- if [[ "${TRAVIS_TAG}" == "" ]]; then export TRAVIS_TAG=${TRAVIS_COMMIT} ; fi
+- if [[ "${TRAVIS_TAG}" == "" ]]; then export TRAVIS_TAG="v0.12.0" ; fi
 - cd src
 - TARGETS="TurtleCoind miner zedwallet turtle-service zedwallet-beta cryptotest wallet-api"
 - "${STRIP} ${TARGETS}"
