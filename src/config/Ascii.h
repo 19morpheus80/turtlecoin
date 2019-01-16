@@ -4,55 +4,33 @@
 
 #pragma once
 
-const std::string windowsAsciiArt =
-      "\n _______         _   _       _____      _        \n"
-              "|__   __|       | | | |     / ____|    (_)      \n"
-              "   | |_   _ _ __| |_| | ___| |     ___  _ _ __  \n"
-              "   | | | | | '__| __| |/ _ \\ |    / _ \\| | '_ \\ \n"
-              "   | | |_| | |  | |_| |  __/ |___| (_) | | | | |\n"
-      "   |_|\\__ _|_|   \\__|_|\\___|\\_____\\___/|_|_| |_|\n";
-
-const std::string nonWindowsAsciiArt = 
-
-"\n                                                        \n"
-"MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMMMMMMNhsymMMMMMMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMMNho-     .+yNMMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMms:             -odMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMmyNMd`                oMMydMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMNy+.  `dMd`              yMN-  `/ymMMMMMMMMMMM \n"
-"MMMMMMMMh+-       `hMm.           `hMm.       ./yNMMMMMMM \n"
-"MMMMMMM+            sMN-         `dMd`           `MMMMMMM \n"
-"MMMMMMM+             sMMmddddddddNMd             .MMMMMMM \n"
-"MMMMMMMs            `dMdssoooooosdMN.            /MMMMMMM \n"
-"MMMMMMMd           `dMh`          oMN-           sMMMMMMM \n"
-"MMMMMMMM`         .mMs             /MN:          dMMMMMMM \n"
-"MMMMMMMM+.``````./NM+               -NM+.```````:MMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMm                 yMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMo-````.-+NMs               /MMo-.````-/MMMMMMMMM \n"
-"MMMMMMMMMd        .mMy`            +MN:        yMMMMMMMMM \n"
-"MMMMMMMMMMo        `dMd`          sMN-        :MMMMMMMMMM \n"
-"MMMMMMMMMMM/        `dMmssooooooymMN.        .NMMMMMMMMMM \n"
-"MMMMMMMMMMMN-        hMMddhhhhhddNMd`       `mMMMMMMMMMMM \n"
-"MMMMMMMMMMMMN-      sMN-         `dMd`     .dMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMM/   `hMm.           `yMm.   -mMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMo .dMh`              sMN: /NMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMhNMy                 +MMhMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMN`                  hMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMd-               .yMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMh-           .sMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMMMh:       -sMMMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMMMMMm+` `/hMMMMMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMMMMMMMMNMMMMMMMMMMMMMMMMMMMMMMMMMMMM \n"
-"MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM \n";
-
-
-/* Windows has some characters it won't display in a terminal. If your ascii
-   art works fine on Windows and Linux terminals, just replace 'asciiArt' with
-   the art itself, and remove these two #ifdefs and above ascii arts */
-#ifdef _WIN32
-const std::string asciiArt = windowsAsciiArt;
-#else
-const std::string asciiArt = nonWindowsAsciiArt;
-#endif
+const std::string asciiArt = 
+"\n                                                         \n"
+"                        ._saoqos,,                       \n"
+"                  ._<au#XXXZZXXZ#Xas,,.                  \n"
+"                <uqXZZZZZZ#ZZZ#ZZXZX#UXo>                \n"
+"         ._sc.  -{UZ#Z#Z#UZ##UZ#Z#Z#ZZZ}`  .si,.         \n"
+"    .__auXZXXo,.  9X################ZZ^   _dXXXXos,,.    \n"
+"._aaoX#XZZZZ##ma.  -3###mmmmmmmmmm##e`  .am#ZZZZZXZZoas,.\n"
+"vXXSXZXZZZ#Z#Z##w,   9VVUUUUUUUUUV?-   _m#Z#Z#ZZZXZXXXXXc\n"
+"vXXXXXZZZ#Z#####mQ;                   <mm####Z#ZZZZXZXXSc\n"
+")XXXXZZZ#Z####mmW!   _saaaaaaaaaaa,.   ?Wmm###Z#ZZZXZXXX(\n"
+"=XXXZZZ#Z####mmD'   vmQWQQQQQQQQQQQmc   7Vmmm##ZUZZZXXXX`\n"
+" 3XXZZZ#Z#####e`  _wWQQWQQQQQQQQQQWWWw,  -?W####ZZZZZXXe \n"
+" +!???Y?Y?Y?Y^   <mQQWQQQQWQQQQQQWQQWWmc   2?Y?Y?Y?????~ \n"
+"                =QWQWQQWQQQQQQQWQQQWQQWm;                \n"
+"  .saaaaaaawa,   )$WQWQQQWQQQWQQQWQWQWB^.  _aaaaaaaaas.  \n"
+"   )XXXZZ#Z#Umc   +$WWWWQQWQWQQWQWQWWD'   vm###UZXXXX+   \n"
+"    {XZZZZ#Z###a,  -?QWWWWQWQWWWWWWB!`  _wZ##ZUXZZZX(    \n"
+"     {XZZZZ#Z###m,   1YVVVVVVVVVVT!-   <mZ##ZZZZZXX}     \n"
+"      {XXXZZZZZ#U#=                   <#Z#ZZZZZXXX(      \n"
+"       +XXXZZZZZZ1   _aaaaaaaaaaaa,.   )XZZZXZXXX^       \n"
+"        -3XXXXZe`   imXZ###########wc   -YXXXXXe`        \n"
+"          +XS2(   _uZXXZXZXZXZZXZXXXXa,   )XX24          \n"
+"           -!`   <dXXXXXXXXXXXXXXXXXXXo>   -!`           \n"
+"               .uSSSSXXXXXXXXXXXXXXXSXXSs.               \n"
+"               -*S2S2S2S2SSS2XS2S2S2S222*`               \n"
+"                 -!1SoS22So2S22S222222>`                 \n"
+"                    7*22222So222222!^-                   \n"
+"                      -7So222222}^                       \n"
+"                         -9**!~                          \n";
